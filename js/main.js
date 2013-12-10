@@ -42,7 +42,7 @@
     /**
      * Instant at which we made the latest increase
      */
-    lastestIncrease: Date.now(),
+    lastestSpeedIncrease: Date.now(),
   };
 
   /**
@@ -59,6 +59,22 @@
     */
     current: 0,
   };
+
+   /**
+  * The different speed value of the current game
+  */
+  var speed = {
+    /**
+    * The speed value of the older frame
+    */
+    previous: Game.Config.Speed.initialBallSpeed,
+
+    /**
+    * The speed value in the current frame
+    */
+    current: Game.Config.Speed.initialBallSpeed,
+  };
+
 
    /**
    * A sprite, i.e. a moving object displayed on screen.
@@ -338,7 +354,7 @@
     ball.event.angle = 2 * Math.random() * Math.PI;
     ball.event.dx = Math.round(Math.cos(ball.event.angle) * 100);
     ball.event.dy = Math.round(Math.sin(ball.event.angle) * 100);
-    ball.event.speed = Game.Config.initialBallSpeed;
+    ball.event.speed = speed.current;
 
     // Hack: Initially, we actually display the ball on the top left
     // but we want everything to happen as if it were centered.
@@ -563,14 +579,15 @@
 
     // FIXME: Handle health, win/lose
 
-    // Increase the speed of all balls progressively (issue #11)
-    if (timeStamps.currentFrame - timeStamps.lastestIncrease >= Game.Config.Speed.timeInterval) {
-        var newSpeed = 0;
+    // Increase the speed of all balls progressively
+    // The goal is to increase the speed every 10 seconds by taking the last speed value
+    // Each time the value is multiply by the same coefficient
+    if (timeStamps.currentFrame - timeStamps.lastestSpeedIncrease >= Game.Config.Speed.timeInterval) {
         for (ball of Ball.balls) {
+          speed.previous = speed.current;
           ball.event.speed = ball.event.speed * Game.Config.Speed.speedCoef;
-          newSpeed = ball.event.speed;
+          speed.current = ball.event.speed;
         }
-        Game.Config.initialBallSpeed = newSpeed;
         timeStamps.lastestIncrease = timeStamps.currentFrame;
     }
 

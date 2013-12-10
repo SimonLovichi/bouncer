@@ -15,9 +15,6 @@
   }
 
   window.Game.Config = {
-    // The starting speed of balls
-    initialBallSpeed: .01,
-
     // The interval between balls, in milliseconds
     intervalBetweenBalls: 3000,
 
@@ -30,6 +27,9 @@
     },
 
     Speed: {
+      // The starting speed of balls
+      initialBallSpeed: .01,
+
       // The interval between speed incrementing, in milliseconds
       timeInterval: 10000,
 

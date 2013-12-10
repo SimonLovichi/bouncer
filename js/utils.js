@@ -47,7 +47,6 @@
      */
     restrictToSegment: function(x, a, b) {
       if (b < a) {
-        console.error("Incorrect parameters for restrictToSegment", x, a, b, "at", new Error().stack);
         throw new Error("Incorrect parameters for restrictToSegment");
       } else if (x < a) {
         return a;
