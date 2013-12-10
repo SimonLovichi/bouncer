@@ -37,7 +37,12 @@
     /**
      * Instant at which we launched the latest ball
      */
-    latestBallLaunch: 0
+    latestBallLaunch: 0,
+
+    /**
+     * Instant at which we made the latest increase
+     */
+    lastestIncrease: Date.now(),
   };
 
   /**
@@ -558,7 +563,16 @@
 
     // FIXME: Handle health, win/lose
 
-    // FIXME: Handle game speed
+    // Increase the speed of all balls progressively (issue #11)
+    if (timeStamps.currentFrame - timeStamps.lastestIncrease >= Game.Config.Speed.timeInterval) {
+        var newSpeed = 0;
+        for (ball of Ball.balls) {
+          ball.event.speed = ball.event.speed * Game.Config.Speed.speedCoef;
+          newSpeed = ball.event.speed;
+        }
+        Game.Config.initialBallSpeed = newSpeed;
+        timeStamps.lastestIncrease = timeStamps.currentFrame;
+    }
 
     // FIXME: Handle score
 

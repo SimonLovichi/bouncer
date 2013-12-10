@@ -27,6 +27,14 @@
 
       // substract point when a ball touch the wall
       bounceOnWall: -2,
+    },
+
+    Speed: {
+      // The interval between speed incrementing, in milliseconds
+      timeInterval: 10000,
+
+      // Accelerator coefficient
+      speedCoef: 1.1,
     }
   };
 })();
